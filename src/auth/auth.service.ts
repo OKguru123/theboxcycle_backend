@@ -146,14 +146,14 @@ export class AuthService {
 
     const message = `Hello ${body.name} , \nYour one time password is ${otp}.\n\nThanks & Regards,\nThe Box Cycle Team`;
     console.log("message", message);
-    const success: boolean = await this.sendEmail(body.email, message);
-    if (!success)
-      return {
-        status: 404,
-        success: false,
-        error: "Failed to send the mail to user",
-        // body: {},
-      };
+    // const success: boolean = await this.sendEmail(body.email, message);
+    // if (!success)
+    //   return {
+    //     status: 404,
+    //     success: false,
+    //     error: "Failed to send the mail to user",
+    //     // body: {},
+    //   };
 
     return {
       status: 200,
