@@ -64,7 +64,7 @@ export class AuthService {
     let data = await this.userModel.findOne({
       where: {
         email: body.email,
-        state: "active",
+        // state: "active",
       },
     });
     if (data) {

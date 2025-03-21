@@ -145,7 +145,11 @@ export class UserService {
     console.log(id, body);
 
     try {
-      const user = await this.userModel.findByPk(id);
+      const user = await this.userModel.findByPk(id, {
+        attributes: {
+          exclude: ["password", "authOptionId", "createdAt", "updatedAt"],
+        },
+      });
       if (file) {
         fs.unlink(
           `${__dirname.split("dist")[0]}/uploads/user-image/${user.image}`,
@@ -180,6 +184,7 @@ export class UserService {
 
   async userGetByIdService(id: string) {
     const user = await this.userModel.findByPk(id);
+
     if (!user) {
       return {
         status: 404,

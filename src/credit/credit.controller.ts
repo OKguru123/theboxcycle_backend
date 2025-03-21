@@ -1,54 +1,61 @@
-import { Body, Controller, Get, Param, Post, Request, UseGuards } from '@nestjs/common';
-import { CreditService } from './credit.service';
-import { CreateCreditDto, DeductCreditDto } from './dto';
-import { Credit } from './model/credit.model';
-import { Roles } from 'src/common/decorators/roles.decorator';
-import { RolesGuard } from 'src/common/guards/roles.guard';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Request,
+  UseGuards,
+} from "@nestjs/common";
+import { CreditService } from "./credit.service";
+import { CreateCreditDto, DeductCreditDto } from "./dto";
+import { Credit } from "./model/credit.model";
+import { Roles } from "src/common/decorators/roles.decorator";
+import { RolesGuard } from "src/common/guards/roles.guard";
 
-@Controller('credit')
+@Controller("credit")
 export class CreditController {
   constructor(private creditService: CreditService) {}
-  @Get('/count/')
+  @Get("/count/")
   @UseGuards(RolesGuard)
-  @Roles(1) 
+  @Roles(1)
   async getCreditCount(@Request() request): Promise<Credit | unknown> {
-   return await this.creditService.getTotalPoints(request.user.email);
+    return await this.creditService.getTotalPoints(request.user.email);
   }
 
-  @Post('add')
+  @Post("add")
   async addCredit(@Body() body: CreateCreditDto): Promise<object> {
     return await this.creditService.userAddCreditService(body);
   }
 
- /* @Get('/:email')
+  /* @Get('/:email')
   @UseGuards(RolesGuard)
   @Roles(1)
   async findOne(@Param('email') email: string): Promise<Credit | unknown> {
     return await this.creditService.userGetCreditService(email);
   }*/
 
-  @Post('deduct')
+  @Post("deduct")
   @UseGuards(RolesGuard)
   @Roles(1)
   async deductCredit(@Body() body: DeductCreditDto): Promise<Credit | unknown> {
     return await this.creditService.userDeductCreditService(
       body.email,
-      body.deductPoints,
+      body.deductPoints
     );
   }
 
-
-  @Get('deduct')
+  @Get("deduct")
   @UseGuards(RolesGuard)
-  @Roles(2) 
+  @Roles(2)
   async getDeductCredit(): Promise<Credit | unknown> {
     return await this.creditService.getDeductCredit();
   }
-  
-  @Get('/:email')
+
+  @Get("/:email")
   @UseGuards(RolesGuard)
-  @Roles(1) 
-  async findOne(@Param('email') email: string): Promise<Credit | unknown> {
+  @Roles(1)
+  async findOne(@Param("email") email: string): Promise<Credit | unknown> {
     return await this.creditService.userGetCreditService(email);
   }
 
